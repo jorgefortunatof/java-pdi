@@ -72,6 +72,11 @@ public class PrincipalController {
 	@FXML private CheckBox invertBR;
 	
 	
+	
+	@FXML private Label quadradoMensagem;
+	
+	
+	
 	private Image image1;
 	private Image image2;
 	private Image image3;
@@ -432,4 +437,30 @@ public class PrincipalController {
 
 
 
+	@FXML public void marcarDiagonal() {
+		if(image1 != null) {
+			image3 = Pdi.marcarDiagonal(image1);
+			atualizaImagem3();	
+		}
+	}
+	
+	@FXML public void filtroDiagonal() {
+		if(image1 != null) {
+			image3 = Pdi.filtroDiagonal(image1);
+			atualizaImagem3();	
+		}
+	}
+
+
+
+	@FXML public void analisaQuadrado() {
+		boolean aberto = Pdi.analisaQuadrado(image1);
+		
+		if(aberto) {
+			quadradoMensagem.setText("O quadrado é aberto.");
+		}else {
+			quadradoMensagem.setText("O quadrado é fechado.");
+		}
+		
+	}
 }

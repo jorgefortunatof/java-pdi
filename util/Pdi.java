@@ -2,8 +2,6 @@ package util;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.Vector;
 
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
@@ -168,7 +166,12 @@ public class Pdi {
 						Color topRight = pr.getColor(i-1, j+1);
 						Color bottomRight = pr.getColor(i+1, j+1);
 						
-						ArrayList<Color> cores = new ArrayList<Color>() {{
+						ArrayList<Color> cores = new ArrayList<Color>() {/**
+							 * 
+							 */
+							private static final long serialVersionUID = 1L;
+
+						{
 						    add(center);
 						    add(topLeft);
 						    add(bottomLeft);
@@ -236,7 +239,12 @@ public class Pdi {
 						Color left = pr.getColor(i, j-1);
 						Color right = pr.getColor(i, j+1);
 						
-						ArrayList<Color> cores = new ArrayList<Color>() {{
+						ArrayList<Color> cores = new ArrayList<Color>() {/**
+							 * 
+							 */
+							private static final long serialVersionUID = 1L;
+
+						{
 						    add(center);
 						    add(top);
 						    add(bottom);
@@ -259,7 +267,12 @@ public class Pdi {
 						Color left = pr.getColor(i, j-1);
 						Color right = pr.getColor(i, j+1);
 						
-						ArrayList<Color> cores = new ArrayList<Color>() {{
+						ArrayList<Color> cores = new ArrayList<Color>() {/**
+							 * 
+							 */
+							private static final long serialVersionUID = 1L;
+
+						{
 						    add(center);
 						    add(top);
 						    add(bottom);
@@ -307,7 +320,12 @@ public class Pdi {
 						Color bottomRight = pr.getColor(i+1, j+1);
 						
 						
-						ArrayList<Color> cores = new ArrayList<Color>() {{
+						ArrayList<Color> cores = new ArrayList<Color>() {/**
+							 * 
+							 */
+							private static final long serialVersionUID = 1L;
+
+						{
 						    add(top);
 						    add(bottom);
 						    add(left);
@@ -339,7 +357,12 @@ public class Pdi {
 						Color bottomRight = pr.getColor(i+1, j+1);
 						
 						
-						ArrayList<Color> cores = new ArrayList<Color>() {{
+						ArrayList<Color> cores = new ArrayList<Color>() {/**
+							 * 
+							 */
+							private static final long serialVersionUID = 1L;
+
+						{
 						    add(top);
 						    add(bottom);
 						    add(left);
@@ -480,9 +503,7 @@ public class Pdi {
 		return media;
 	}
 	
-	public static Color medianaCores(ArrayList<Color> colors) {
-		int size = colors.size();
-		
+	public static Color medianaCores(ArrayList<Color> colors) {		
 		ArrayList<Double> r = new ArrayList<>();
 		ArrayList<Double> g = new ArrayList<>();
 		ArrayList<Double> b = new ArrayList<>();
@@ -571,8 +592,6 @@ public class Pdi {
 			int h = (int)imagem.getHeight();
 			
 			PixelReader pr = imagem.getPixelReader();
-			WritableImage wi = new WritableImage(w, h);
-			PixelWriter pw = wi.getPixelWriter();
 			
 			for(int i=0; i<w; i++) {
 				for(int j=0; j<h; j++) {
@@ -604,8 +623,6 @@ public class Pdi {
 			int h = (int)imagem.getHeight();
 			
 			PixelReader pr = imagem.getPixelReader();
-			WritableImage wi = new WritableImage(w, h);
-			PixelWriter pw = wi.getPixelWriter();
 			
 			
 			if(tipo == 0) {
@@ -741,8 +758,8 @@ public class Pdi {
 					Color cor = pr.getColor(i, j);
 					
 					double acR = histAcR[(int)(cor.getRed()*255)];
-					double acG = histAcR[(int)(cor.getGreen()*255)];
-					double acB = histAcR[(int)(cor.getBlue()*255)];
+					double acG = histAcG[(int)(cor.getGreen()*255)];
+					double acB = histAcB[(int)(cor.getBlue()*255)];
 					
 					double colorR = (minR + (((qntR-1)/ n) *acR))/255;
 					double colorG = (minG + (((qntG-1)/ n) *acG))/255;
@@ -762,7 +779,6 @@ public class Pdi {
 		}
 	}
 
-	
 	
 	
 	public static Image filtroNaSelecao(Image imagem, int p1x, int p1y, int p2x, int p2y) {
@@ -859,10 +875,10 @@ public class Pdi {
 			}
 						
 			
+			Color corN = new Color(1, 0, 0 , 1);
 			for(int i=0; i<w; i++) {
 				for(int j=0; j<h; j++) {
 					Color corOriginal = pr.getColor(i, j);
-					Color corN = new Color(1, 0, 0 , 1);
 					
 					
 					if((i == pxMaior || i == pxMenor) && (j <= pyMaior && j >= pyMenor)) {
@@ -912,7 +928,6 @@ public class Pdi {
 		}
 	}
 
-	
 	public static Image inverterImagemEm4(Image imagem, boolean tl, boolean tr, boolean bl, boolean br) {
 		try {
 			int w = (int)imagem.getWidth();
@@ -969,4 +984,136 @@ public class Pdi {
 		}
 	}
 	
+	
+	
+	public static Image marcarDiagonal(Image imagem) {
+		try {
+			int w = (int)imagem.getWidth();
+			int h = (int)imagem.getHeight();
+			
+			PixelReader pr = imagem.getPixelReader();
+			WritableImage wi = new WritableImage(w, h);
+			PixelWriter pw = wi.getPixelWriter();
+			
+			
+			
+			Color corN = new Color(1, 0, 0 , 1);
+			
+			for(int i=0; i<w; i++) {				
+				for(int j=0; j<h; j++) {
+					Color corOriginal = pr.getColor(i, j);
+					
+					if(i == j) {
+						pw.setColor(i, j, corN);
+						
+					}else {
+						pw.setColor(i, j, corOriginal);
+						
+					}
+				
+				}
+			}
+
+			
+			return wi;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static Image filtroDiagonal(Image imagem) {
+		try {
+			int w = (int)imagem.getWidth();
+			int h = (int)imagem.getHeight();
+			
+			PixelReader pr = imagem.getPixelReader();
+			WritableImage wi = new WritableImage(w, h);
+			PixelWriter pw = wi.getPixelWriter();
+			
+			for(int i=0; i<w; i++) {
+				for(int j=0; j<h; j++) {
+					Color corOriginal = pr.getColor(i, j);
+					Color corN = new Color(1, 0, 0 , 1);
+					
+					if(i == j) {
+						pw.setColor(i, j, corN);
+						
+					}else if(i > j) {
+						double r  = 1 - corOriginal.getRed();
+						double g  = 1 - corOriginal.getGreen();
+						double b  = 1 - corOriginal.getBlue();
+						
+						corN = new Color(r, g, b ,corOriginal.getOpacity());
+						pw.setColor(i, j, corN);
+						
+					}else {
+						
+						pw.setColor(i, j, corOriginal);
+					}
+				}
+			}
+			
+			return wi;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	
+	
+	public static boolean analisaQuadrado(Image imagem) {
+		try {
+			int w = (int)imagem.getWidth();
+			int h = (int)imagem.getHeight();
+			
+			PixelReader pr = imagem.getPixelReader();
+			WritableImage wi = new WritableImage(w, h);
+			PixelWriter pw = wi.getPixelWriter();
+			
+			
+			int contagemMudouCor;
+			int contagemPreto;
+			
+			Color ultima = pr.getColor(0, 0);
+			
+			boolean comecaAContarPreto = false;
+			boolean aberto = false;
+			
+			for(int i=0; i<w; i++) {
+				contagemMudouCor = 0;
+				contagemPreto = 0;
+				
+				for(int j=0; j<h; j++) {
+					Color atual = pr.getColor(i, j);
+					
+					pw.setColor(i, j, atual);
+					
+					if(!atual.equals(ultima)) {
+						comecaAContarPreto = !comecaAContarPreto;						
+						contagemMudouCor++;
+					}
+					
+					if(comecaAContarPreto) {
+						contagemPreto++;
+					}
+
+					ultima = atual;
+				}
+				
+				if(contagemPreto == 1 || (contagemPreto > 2 && contagemMudouCor > 2)) {
+					aberto = true;
+					break;
+				}
+			}
+			
+			
+			return aberto;
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

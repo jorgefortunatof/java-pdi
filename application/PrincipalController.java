@@ -72,9 +72,12 @@ public class PrincipalController {
 	@FXML private CheckBox invertBR;
 	
 	
-	
 	@FXML private Label quadradoMensagem;
 	
+	
+	
+	@FXML private Label efeitoZebradoMensagem;	
+	@FXML private TextField efeitoZebradoNumeroColunas;
 	
 	
 	private Image image1;
@@ -409,7 +412,7 @@ public class PrincipalController {
 				int p2y = Integer.parseInt(this.p2y.getText());	
 				
 				
-				image3 = Pdi.filtroNaSelecao(image1, p1x, p1y, p2x, p2y);
+				image3 = Pdi.inverterSelecao(image1, p1x, p1y, p2x, p2y);
 				atualizaImagem3();	
 			}
 		}catch(Exception e) {
@@ -457,10 +460,39 @@ public class PrincipalController {
 		boolean aberto = Pdi.analisaQuadrado(image1);
 		
 		if(aberto) {
-			quadradoMensagem.setText("O quadrado é aberto.");
+			quadradoMensagem.setText("O quadrado é vazio.");
 		}else {
-			quadradoMensagem.setText("O quadrado é fechado.");
+			quadradoMensagem.setText("O quadrado é preenchido.");
 		}
 		
+	}
+	
+	
+	
+	@FXML public void efeitoZebrado() {
+		efeitoZebradoMensagem.setText("");
+		int numeroCol = 1;
+		
+		try {
+			numeroCol = Integer.parseInt(efeitoZebradoNumeroColunas.getText());
+			
+			if(numeroCol == 0) {
+				throw new Exception();
+			}
+			
+		}catch(Exception e) {
+			efeitoZebradoMensagem.setText("Insira um número \nválido maior que 0");
+			return;
+		}
+		
+		
+		if(image1 != null) {
+			if(image1.getWidth() < numeroCol) {
+				efeitoZebradoMensagem.setText("O numero de colunas não pode \nser maior que a largura \nda imagem");
+			}else {
+				image3 = Pdi.efeitoZebrado(image1, numeroCol);
+				atualizaImagem3();	
+			}					
+		}
 	}
 }

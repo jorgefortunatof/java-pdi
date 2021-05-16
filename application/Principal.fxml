@@ -20,6 +20,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PrincipalController">
    <children>
@@ -266,12 +267,17 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
-                  <TitledPane animated="false" layoutX="10.0" layoutY="137.0" text="Seleção">
+                  <TitledPane animated="false" layoutX="10.0" layoutY="137.0" text="Selecionar e inverter">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <VBox layoutX="36.0" layoutY="-18.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Clique em dois pontos na imagem para gerar uma seleção" textAlignment="CENTER" wrappingWidth="181.09814453125">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </Text>
                                     <HBox prefHeight="29.0" prefWidth="180.0">
                                        <children>
                                           <Label text="P1: (">
@@ -304,17 +310,12 @@
                                     </HBox>
                                     <Button mnemonicParsing="false" onAction="#marcarSelecao" text="MarcarSeleção">
                                        <VBox.margin>
-                                          <Insets left="5.0" top="30.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                    <Button mnemonicParsing="false" onAction="#filtroNaSelecao" text="NegativaSeleção">
-                                       <VBox.margin>
                                           <Insets left="5.0" top="10.0" />
                                        </VBox.margin>
                                     </Button>
-                                    <Button mnemonicParsing="false" onAction="#limparSelecao" text="LimparSeleção">
+                                    <Button mnemonicParsing="false" onAction="#filtroNaSelecao" text="InverteSeleção">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+                                          <Insets left="5.0" top="5.0" />
                                        </VBox.margin>
                                     </Button>
                                  </children>
@@ -371,7 +372,7 @@
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </CheckBox>
-                                    <Button mnemonicParsing="false" onAction="#inverterImagemLados" text="inverter lados">
+                                    <Button mnemonicParsing="false" onAction="#inverterImagemLados" text="Inverter lados">
                                        <VBox.margin>
                                           <Insets top="20.0" />
                                        </VBox.margin>
@@ -393,12 +394,36 @@
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#analisaQuadrado" text="identificar">
+                                    <Button mnemonicParsing="false" onAction="#analisaQuadrado" text="Identificar">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
                                     </Button>
                                     <Label fx:id="quadradoMensagem">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Efeito Zebrado">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label text="Numero de Colunas" />
+                                    <TextField fx:id="efeitoZebradoNumeroColunas" prefHeight="27.0" prefWidth="99.0" promptText="0" />
+                                    <Button mnemonicParsing="false" onAction="#efeitoZebrado" text="Aplicar">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Label fx:id="efeitoZebradoMensagem" textFill="RED">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>

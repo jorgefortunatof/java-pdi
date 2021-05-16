@@ -757,9 +757,9 @@ public class Pdi {
 					
 					Color cor = pr.getColor(i, j);
 					
-					double acR = histAcR[(int)(cor.getRed()*255)];
-					double acG = histAcG[(int)(cor.getGreen()*255)];
-					double acB = histAcB[(int)(cor.getBlue()*255)];
+					double acR = histAcR[(int)(cor.getRed()*254)];
+					double acG = histAcG[(int)(cor.getGreen()*254)];
+					double acB = histAcB[(int)(cor.getBlue()*254)];
 					
 					double colorR = (minR + (((qntR-1)/ n) *acR))/255;
 					double colorG = (minG + (((qntG-1)/ n) *acG))/255;
@@ -781,7 +781,7 @@ public class Pdi {
 
 	
 	
-	public static Image filtroNaSelecao(Image imagem, int p1x, int p1y, int p2x, int p2y) {
+	public static Image inverterSelecao(Image imagem, int p1x, int p1y, int p2x, int p2y) {
 		try {
 			int w = (int)imagem.getWidth();
 			int h = (int)imagem.getHeight();
@@ -820,12 +820,9 @@ public class Pdi {
 					Color corOriginal = pr.getColor(i, j);
 										
 					if((i <= pxMaior && i >= pxMenor) && (j <= pyMaior && j >= pyMenor)) {
-						double r  = 1 - corOriginal.getRed();
-						double g  = 1 - corOriginal.getGreen();
-						double b  = 1 - corOriginal.getBlue();
+						corOriginal = pr.getColor((pxMenor + pxMaior) -i , (pyMenor + pyMaior) - j);
 						
-						Color corN = new Color(r, g, b ,corOriginal.getOpacity());
-						pw.setColor(i, j, corN);
+						pw.setColor(i, j, corOriginal);
 					}else {
 						pw.setColor(i, j, corOriginal);
 					}
@@ -1102,6 +1099,60 @@ public class Pdi {
 					ultima = atual;
 				}
 				
+				if(contagemPreto == 2 || contagemPreto == 1 ) {					
+					aberto = true;
+					break;
+				}
+			}
+			
+			
+			return aberto;
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public static boolean analisaQuadradoV2(Image imagem) {
+		try {
+			int w = (int)imagem.getWidth();
+			int h = (int)imagem.getHeight();
+			
+			PixelReader pr = imagem.getPixelReader();
+			WritableImage wi = new WritableImage(w, h);
+			PixelWriter pw = wi.getPixelWriter();
+			
+			
+			int contagemMudouCor;
+			int contagemPreto;
+			
+			Color ultima = pr.getColor(0, 0);
+			
+			boolean comecaAContarPreto = false;
+			boolean aberto = false;
+			
+			for(int i=0; i<w; i++) {
+				contagemMudouCor = 0;
+				contagemPreto = 0;
+				
+				for(int j=0; j<h; j++) {
+					Color atual = pr.getColor(i, j);
+					
+					pw.setColor(i, j, atual);
+					
+					if(!atual.equals(ultima)) {
+						comecaAContarPreto = !comecaAContarPreto;						
+						contagemMudouCor++;
+					}
+					
+					if(comecaAContarPreto) {
+						contagemPreto++;
+					}
+
+					ultima = atual;
+				}
+				
 				if(contagemPreto == 1 || (contagemPreto > 2 && contagemMudouCor > 2)) {
 					aberto = true;
 					break;
@@ -1114,6 +1165,45 @@ public class Pdi {
 		}catch(Exception e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+
+
+	public static Image efeitoZebrado(Image imagem, int numeroCol) {
+		try {
+			int w = (int)imagem.getWidth();
+			int h = (int)imagem.getHeight();
+			
+			PixelReader pr = imagem.getPixelReader();
+			WritableImage wi = new WritableImage(w, h);
+			PixelWriter pw = wi.getPixelWriter();
+			
+			int aCada = w/numeroCol;
+			boolean cinza = true;
+			
+			for(int i=0; i<w; i++) {
+				
+				if(i != 0 && i%aCada == 0) {
+					cinza = !cinza;
+				}
+				
+				for(int j=0; j<h; j++) {
+					Color corN = pr.getColor(i, j);
+					
+					if(cinza) {
+						double media = (corN.getRed()+corN.getBlue()+corN.getGreen()) / 3;
+						corN = new Color(media, media, media ,corN.getOpacity());						
+					}
+					
+					pw.setColor(i, j, corN);
+				}
+			}
+			
+			return wi;
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }
